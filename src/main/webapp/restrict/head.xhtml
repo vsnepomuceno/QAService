@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<h:head>
+	<title>QAService ESEG</title>
+	<link rel="shortcut icon" href="./resources/images/favicon.ico" />
+	<h:outputStylesheet
+		name="webjars/font-awesome/4.7.0/css/font-awesome.css" />
+</h:head>
+<h:body>
+	<h:graphicImage library="images" name="ESEG_logo.png"
+		style="width: 100%" />
+	<p:growl id="gro" life="3000" />
+	<h:form>
+		<p:toolbar>
+			<f:facet name="left">
+				<p:commandButton value="Welcome, Mr(s). #{qauserLogged.username}" styleClass="ui-priority-primary"
+					icon="fa fa-home"
+					action="/restrict/index.xhtml?faces-redirect=true" />
+			</f:facet>
+			<f:facet name="right">
+				<p:commandButton value="New Paper" 
+					icon="fa fa-plus"
+					action="/restrict/paper/register.xhtml?faces-redirect=true" />
+				
+				<p:commandButton value="Search" icon="fa fa-search"
+					action="/restrict/assessment/search.xhtml?faces-redirect=true" />
+
+				<p:commandButton value="Logout" icon="fa fa-sign-out"
+					action="#{QAUserModel.logout()}" />
+			</f:facet>
+		</p:toolbar>
+	</h:form>
+</h:body>
+</html>
+

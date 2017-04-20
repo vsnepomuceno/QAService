@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+<h:body>
+	<ui:include src="/restrict/head.xhtml" />
+	<br/>
+	<h:form id="formListAssessements">
+		<p:messages />
+		<p:fieldset>
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Title:" />
+				<p:outputLabel value="#{selectedPaper.name}" />
+
+				<p:outputLabel value="Authors:" />
+				<p:outputLabel value="#{selectedPaper.authors}" />
+
+				<p:outputLabel value="Year of Publication:" />
+				<p:outputLabel value="#{selectedPaper.year}" />
+
+			</p:panelGrid>
+			<br />
+			<p:commandButton value="New Assessment" icon="fa fa-plus"
+				action="${paperModel.registerAssessmentRedirect()}" />
+		</p:fieldset>
+		<br/>
+		<br/>
+		<p:dataTable id="tabela" value="#{selectedPaper.qualityAssements}" var="item"
+				paginator="true" rows="5" selection="#{selectedQA}"
+				selectionMode="single" rowKey="${item.codigo}">
+				
+				<p:column headerText="Method Name">
+					<p align="center">${item.methodName}</p>
+				</p:column>
+
+				<p:column headerText="Method Reference">
+					<p align="center">${item.methodReference}</p>
+				</p:column>
+
+				<p:column headerText="Score">
+					<p align="center">${item.methodScore}</p>
+				</p:column>
+			</p:dataTable>
+	</h:form>
+</h:body>
+</html>
+

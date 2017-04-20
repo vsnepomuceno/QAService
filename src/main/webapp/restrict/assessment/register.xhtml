@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+<h:body>
+	<ui:include src="/restrict/head.xhtml" />
+	<br/>
+	<br/>
+	<h:form id="formRegister">
+		<p:messages />
+		<p:panelGrid columns="2">
+			<p:outputLabel value="Method Name*: " />
+			<p:inputText id="txtMN" binding="#{methodName}" required="true"
+				maxlength="100" style="width: 700px;" requiredMessage="Method name can not be empty!" />
+
+			<p:outputLabel value="Method Reference*: " />
+			<p:inputText id="txtAuthors" binding="#{methodReference}" required="true"
+				maxlength="100" style="width: 700px;" requiredMessage="Reference can not be empty!" />
+
+			<p:outputLabel value="Method Score: " />
+			<p:inputText id="txtYear" style="width: 100px;" binding="#{methodScore}" maxLength="6"/>
+				
+			<p:outputLabel value="Observations:" />
+			<p:inputTextarea id="txtObs" binding="#{observations}" cols="100"
+					rows="8" maxlength="2000"/>
+
+		</p:panelGrid>
+		<br />
+		<p:commandButton value="Register" update="formRegister"
+			action="${paperModel.registerAssessmentRedirect(methodName.value, 
+			methodReference.value, methodScore.value, observations.value )}"/>
+	</h:form>
+
+</h:body>
+</html>
+

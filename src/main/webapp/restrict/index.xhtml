@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<ui:include src="/restrict/head.xhtml" />
+<h:body>
+	<br />
+	<br />
+	<h:form id="form">
+		<p:dataScroller value="#{qauserLogged.papersEvaluated}" var="paper"
+			chunkSize="3">
+			<f:facet name="header"> 
+            	Load More Quality Assessments
+        	</f:facet>
+
+			<f:facet name="loader">
+				<p:commandButton type="button" value="More"
+					icon="ui-icon-circle-triangle-s" />
+			</f:facet>
+			<p:fieldset>
+				<h:panelGrid columns="2" cellpadding="5">
+					<h:outputText value="Tiltle:" style="font-weight: bold" />
+					<h:outputText value="#{paper.name}" />
+
+					<h:outputText value="Authors:" style="font-weight: bold" />
+					<h:outputText value="#{paper.authors}" />
+
+					<h:outputText value="Year:" style="font-weight: bold" />
+					<h:outputText value="#{paper.year}" />
+				</h:panelGrid>
+				<p:commandButton value="Assessments" update="form" icon="fa fa-list"
+				action="${paperModel.listAssessments(paper.codigo)}" />
+			</p:fieldset>
+			<br/>
+		</p:dataScroller>
+	</h:form>
+</h:body>
+</html>
+
