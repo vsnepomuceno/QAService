@@ -30,7 +30,7 @@
 				action="${paperModel.registerAssessmentRedirect()}" />
 		</p:fieldset>
 		<br/>
-		<br/>
+		<br/>		
 		<p:dataTable id="tabela" value="#{selectedPaper.qualityAssements}" var="item"
 				paginator="true" rows="5" selection="#{selectedQA}"
 				selectionMode="single" rowKey="${item.codigo}">
@@ -45,6 +45,10 @@
 
 				<p:column headerText="Score">
 					<p align="center">${item.methodScore}</p>
+				</p:column>
+				<p:column >
+					<p:commandButton value="Details" icon="fa fa-detail"
+					action="${paperModel.detailAssessmentRedirect(item)}" />
 				</p:column>
 			</p:dataTable>
 	</h:form>

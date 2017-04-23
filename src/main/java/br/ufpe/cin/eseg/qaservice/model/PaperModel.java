@@ -1,5 +1,7 @@
 package br.ufpe.cin.eseg.qaservice.model;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
 
@@ -8,6 +10,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +36,8 @@ public class PaperModel implements Serializable {
 	@Autowired
 	private QAUserRepository qaUserRepository;
 	
+	private UploadedFile file;
+	
 	public String registerPaper(String title, String authors, String year) {
 		String ret = "";
 		try {
@@ -47,7 +54,8 @@ public class PaperModel implements Serializable {
 			
 			paper = paperRepository.saveAndFlush(paper);
 			
-			this.setQAUserLogged(qaUserRepository.findByEmail(paper.getQauser().getEmail()));
+			this.setQAUserLogged(qaUserRepository.findByEmail(
+										paper.getQauser().getEmail()));
 			
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, 
@@ -92,15 +100,19 @@ public class PaperModel implements Serializable {
 			methodReference, Integer methodScore, String observations) {
 		String ret = "";
 		try {
+			if (this.file == null) {
+				throw new Exception("File is not valid!");
+			}
 			QualityAssessment qa = new QualityAssessment();
 			qa.setMethodName(methodName);
 			qa.setMethodReference(methodReference);
 			qa.setMethodScore(methodScore);
 			qa.setObservations(observations);
-			
+			qa.setPdfFile(this.file.getContents());
 			
 			Paper paper = this.getSelectedPaper();
 			paper.getQualityAssements().add(qa);
+			qa.setPaper(paper);
 			paper = paperRepository.saveAndFlush(paper);
 			this.setSelectedPaper(paper);
 			ret = "/restrict/assessment/list.xhtml?faces-redirect=true";
@@ -109,6 +121,17 @@ public class PaperModel implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 							ex.getMessage(), ""));
+		}
+		
+		return ret;
+	}
+	
+	public String detailAssessmentRedirect(QualityAssessment qa) {
+		String ret= "";
+		
+		if (qa != null) {
+			this.setSelectedQA(qa);
+			ret = "/restrict/assessment/detail.xhtml?faces-redirect=true";
 		}
 		
 		return ret;
@@ -133,4 +156,28 @@ public class PaperModel implements Serializable {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().
 		put("selectedPaper", paper);
 	}
+	
+	public QualityAssessment getSelectedQA() {
+		return (QualityAssessment) FacesContext.getCurrentInstance().getExternalContext().
+				getSessionMap().get("qualityAssessment");
+	}
+	
+	public void setSelectedQA(QualityAssessment qa) {
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().
+		put("qualityAssessment", qa);
+	}
+	
+	public UploadedFile getFile() {
+		return file;
+	}
+
+	public void setFile(UploadedFile file) {
+		this.file = file;
+	}
+	
+	public StreamedContent getPdfFile() {
+		InputStream stream = new ByteArrayInputStream(this.getSelectedQA().getPdfFile());
+		StreamedContent pdffile = new DefaultStreamedContent(stream, "application/pdf", "attachment.pdf");
+        return pdffile;
+    }
 }

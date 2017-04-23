@@ -66,7 +66,7 @@ public class PersistenceContext {
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-		vendorAdapter.setDatabase(Database.POSTGRESQL);
+		vendorAdapter.setDatabase(Database.MYSQL);
 		vendorAdapter.setGenerateDdl(true);
 		vendorAdapter.setShowSql(false);
 

@@ -66,16 +66,18 @@
 			<artifactId>c3p0</artifactId>
 			<version>0.9.1.2</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
-			<groupId>postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>9.1-901-1.jdbc4</version>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.6</version>
 		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.primefaces/primefaces -->
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
-			<version>6.0</version>
+			<version>5.3</version>
 		</dependency>
 		<dependency>
 			<groupId>javax</groupId>
@@ -148,15 +150,15 @@
 				<version>1.5</version>
 				<dependencies>
 					<dependency>
-						<groupId>postgresql</groupId>
-						<artifactId>postgresql</artifactId>
-						<version>9.1-901-1.jdbc4</version>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>5.1.6</version>
 					</dependency>
 				</dependencies>
 				<configuration>
-					<driver>org.postgresql.Driver</driver>
-					<url>jdbc:postgressql://localhost:5432:qaservice</url>
-					<username>postgres</username>
+					<driver>com.mysql.jdbc.Driver</driver>
+					<url>jdbc:mysql://localhost:3306/qaservice</url>
+					<username>root</username>
 					<password>root</password>
 				</configuration>
 				<executions>
@@ -167,9 +169,9 @@
 							<goal>execute</goal>
 						</goals>
 						<configuration>
-							<url>jdbc:postgresql://localhost:5432</url>
+							<url>jdbc:mysql://localhost:3306</url>
 							<!-- no transaction -->
-							<autocommit>true</autocommit>
+							<autocommit>false</autocommit>
 							<sqlCommand>create database qaservice</sqlCommand>
 							<onError>continue</onError>
 						</configuration>
