@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<head>
+
+<script type="text/javascript">
+function start() {
+    PF('statusDialog').show();
+}
+ 
+function stop() {
+    PF('statusDialog').hide();
+}
+</script>
+
+</head>
+
+<h:body>
+	<ui:include src="/restrict/head.xhtml" />
+	<br/>
+	<br/>
+	<h:form id="formDetail" enctype="multipart/form-data">
+		<p:panelGrid columns="2">
+			<p:outputLabel value="Method Name*: " />
+			<p:outputLabel value="#{qualityAssessment.methodName}" />
+			
+			
+			<p:outputLabel value="Method Reference*: " />
+			<p:outputLabel value="#{qualityAssessment.methodReference}" />
+
+			<p:outputLabel value="Method Score: " />
+			<p:outputLabel value="#{qualityAssessment.methodScore}" />
+			
+			<p:outputLabel value="Attachment: " />
+			<p:commandButton value="Download" ajax="false"
+				onclick="PrimeFaces.monitorDownload(start, stop);"
+				icon="ui-icon-arrowthick-1-s">
+				<p:fileDownload value="#{paperModel.pdfFile}" />
+			</p:commandButton>
+
+			<p:outputLabel value="Observations:" />
+			<p:inputTextarea value="#{qualityAssessment.observations}" 
+					cols="100" rows="8" readonly="true"/>
+		</p:panelGrid>
+	</h:form>
+	<p:dialog modal="true" widgetVar="statusDialog" header="Status" 
+		draggable="false" closable="false" resizable="false">
+	    
+	    <p:outputLabel value="Wait...." />
+	</p:dialog>
+</h:body>
+</html>
+
