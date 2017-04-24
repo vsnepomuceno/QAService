@@ -11,6 +11,23 @@
 <h:body>
 	<ui:include src="/restrict/head.xhtml" />
 
+	<h:form id="formSearch">
+		<p:fieldset style="background-color: transparent;">
+			<p:panelGrid columns="3">
+				<p:outputLabel value="Query Title: " />
+				<p:inputText id="txtQuery" binding="#{query}" size="75"
+					maxlength="300" />
+				<p:commandButton value="Search" update="formSearch"
+					icon="fa fa-search" action="${paperModel.searchTitle(query.value)}" />
+				
+				<p:outputLabel value="Query Authors: " />
+				<p:inputText id="txtAuthors" binding="#{authors}" size="75"
+					maxlength="300"  />
+				<p:commandButton value="Search" update="formSearch"
+					icon="fa fa-search" action="${paperModel.searchAuthors(authors.value)}" />
+			</p:panelGrid>
+		</p:fieldset>
+	</h:form>
 </h:body>
 </html>
 

@@ -23,7 +23,9 @@
 
 				<p:outputLabel value="Year of Publication:" />
 				<p:outputLabel value="#{selectedPaper.year}" />
-
+				
+				<p:outputLabel value="Registered By:" />
+				<p:outputLabel value="#{selectedPaper.qauser.username}" />
 			</p:panelGrid>
 			<br />
 			<p:commandButton value="New Assessment" icon="fa fa-plus"

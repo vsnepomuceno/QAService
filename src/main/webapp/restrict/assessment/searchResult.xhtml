@@ -7,12 +7,12 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-<ui:include src="/restrict/head.xhtml" />
+
 <h:body>
-	<br />
-	<br />
-	<h:form id="form">
-		<p:dataScroller value="#{qauserLogged.papersRegistered}" var="paper"
+	<ui:include src="/restrict/head.xhtml" />
+	<br/>
+	<h:form id="formSearchResults">
+		<p:dataScroller value="#{papers}" var="paper"
 			chunkSize="3">
 			<f:facet name="header"> 
             	Load More Papers
@@ -33,7 +33,7 @@
 					<h:outputText value="Year:" style="font-weight: bold" />
 					<h:outputText value="#{paper.year}" />
 				</h:panelGrid>
-				<p:commandButton value="Assessments" update="form" icon="fa fa-list"
+				<p:commandButton value="Assessments" update="formSearchResults" icon="fa fa-list"
 				action="${paperModel.listAssessments(paper.codigo)}" />
 			</p:fieldset>
 			<br/>

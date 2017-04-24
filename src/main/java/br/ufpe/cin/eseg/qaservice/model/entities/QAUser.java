@@ -46,7 +46,7 @@ public class QAUser implements Serializable{
 
 	@OneToMany(mappedBy = "qauser", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
 	@OrderBy ("codigo DESC")
-	private List<Paper> papersEvaluated;
+	private List<Paper> papersRegistered;
 
 	public String getUsername() {
 		return username;
@@ -79,13 +79,13 @@ public class QAUser implements Serializable{
 	public void setInstitution(Institution institution) {
 		this.institution = institution;
 	}
-
-	public List<Paper> getPapersEvaluated() {
-		return papersEvaluated;
+	
+	public List<Paper> getPapersRegistered() {
+		return papersRegistered;
 	}
 
-	public void setPapersEvaluated(List<Paper> papersEvaluated) {
-		this.papersEvaluated = papersEvaluated;
+	public void setPapersRegistered(List<Paper> papersRegistered) {
+		this.papersRegistered = papersRegistered;
 	}
 
 	public Integer getCodigo() {

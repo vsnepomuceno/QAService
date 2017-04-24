@@ -43,7 +43,10 @@ function stop() {
 				icon="ui-icon-arrowthick-1-s">
 				<p:fileDownload value="#{paperModel.pdfFile}" />
 			</p:commandButton>
-
+			
+			<p:outputLabel value="Registered By: " />
+			<p:outputLabel value="#{qualityAssessment.qaUser.username}" />
+			
 			<p:outputLabel value="Observations:" />
 			<p:inputTextarea value="#{qualityAssessment.observations}" 
 					cols="100" rows="8" readonly="true"/>

@@ -1,5 +1,7 @@
 package br.ufpe.cin.eseg.qaservice.model.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,11 +12,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "quality_assessment")
-public class QualityAssessment {
+public class QualityAssessment implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +54,10 @@ public class QualityAssessment {
 
 	@Column(name = "negativeqa")
 	private Integer negativeQA;
+	
+	@OneToOne
+	@JoinColumn(name = "qauser_id")
+	private QAUser qaUser;
 
 	public Integer getCodigo() {
 		return codigo;
@@ -117,5 +129,13 @@ public class QualityAssessment {
 
 	public void setNegativeQA(Integer negativeQA) {
 		this.negativeQA = negativeQA;
+	}
+	
+	public QAUser getQaUser() {
+		return qaUser;
+	}
+
+	public void setQaUser(QAUser qaUser) {
+		this.qaUser = qaUser;
 	}
 }

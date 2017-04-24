@@ -14,6 +14,7 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import br.ufpe.cin.eseg.qaservice.model.entities.Paper;
@@ -109,6 +110,7 @@ public class PaperModel implements Serializable {
 			qa.setMethodScore(methodScore);
 			qa.setObservations(observations);
 			qa.setPdfFile(this.file.getContents());
+			qa.setQaUser(this.getQAUserLogged());
 			
 			Paper paper = this.getSelectedPaper();
 			paper.getQualityAssements().add(qa);
@@ -121,6 +123,7 @@ public class PaperModel implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 							ex.getMessage(), ""));
+			ex.printStackTrace();
 		}
 		
 		return ret;
@@ -132,6 +135,38 @@ public class PaperModel implements Serializable {
 		if (qa != null) {
 			this.setSelectedQA(qa);
 			ret = "/restrict/assessment/detail.xhtml?faces-redirect=true";
+		}
+		
+		return ret;
+	}
+	
+	public String searchTitle(String title) {
+		String ret= "";
+		
+		if (title != null) {
+			List<Paper> papers = this.paperRepository.findByPartialNameAndSort(title, new Sort(Sort.Direction.ASC, "name"));
+			this.setPapers(papers);
+			ret = "/restrict/assessment/searchResult.xhtml?faces-redirect=true";
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+							"Title can not be null!", ""));
+		}
+		
+		return ret;
+	}
+	
+	public String searchAuthors(String authors) {
+		String ret= "";
+		
+		if (authors != null) {
+			List<Paper> papers = this.paperRepository.findByPartialAuthors(authors);
+			this.setPapers(papers);
+			ret = "/restrict/assessment/searchResult.xhtml?faces-redirect=true";
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+							"Authors can not be null!", ""));
 		}
 		
 		return ret;
@@ -165,6 +200,17 @@ public class PaperModel implements Serializable {
 	public void setSelectedQA(QualityAssessment qa) {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().
 		put("qualityAssessment", qa);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Paper> getPapers() {
+		return (List<Paper>) FacesContext.getCurrentInstance().getExternalContext().
+				getSessionMap().get("papers");
+	}
+	
+	public void setPapers(List<Paper> papers) {
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().
+		put("papers", papers);
 	}
 	
 	public UploadedFile getFile() {
