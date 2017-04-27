@@ -37,7 +37,14 @@ public class PaperModel implements Serializable {
 	@Autowired
 	private QAUserRepository qaUserRepository;
 	
-	private UploadedFile file;
+	private UploadedFile file;	
+
+	private Paper paper;
+	
+	public PaperModel() {
+		this.paper = new Paper();
+	}
+
 	
 	public String registerPaper(String title, String authors, String year) {
 		String ret = "";
@@ -57,6 +64,36 @@ public class PaperModel implements Serializable {
 			
 			this.setQAUserLogged(qaUserRepository.findByEmail(
 										paper.getQauser().getEmail()));
+			
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, 
+							"Paper Registered with success!", ""));
+			
+			ret = "/restrict/index.xhtml?faces-redirect=true";
+		}catch (NumberFormatException nfex) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+							"Not valid year!", ""));
+		}catch (Exception ex) {
+			LoggerQAS.getLoggerInstance().logError(ex.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+							ex.getMessage(), ""));
+		}
+		
+		return ret;
+	}
+	
+	public String updatePaper() {
+		String ret = "";
+		try {
+			Paper found = paperRepository.findByName(paper.getName());
+			if ((found != null) && (found.getCodigo() != this.paper.getCodigo())) {
+				this.setPaper(new Paper());
+				throw new Exception("Paper already registered!");
+			}
+			paperRepository.saveAndFlush(paper);
+			
 			
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, 
@@ -226,4 +263,12 @@ public class PaperModel implements Serializable {
 		StreamedContent pdffile = new DefaultStreamedContent(stream, "application/pdf", "attachment.pdf");
         return pdffile;
     }
+
+	public Paper getPaper() {
+		return paper;
+	}
+
+	public void setPaper(Paper paper) {
+		this.paper = paper;
+	}
 }

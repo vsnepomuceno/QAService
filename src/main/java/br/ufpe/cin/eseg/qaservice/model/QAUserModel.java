@@ -24,7 +24,7 @@ public class QAUserModel implements Serializable {
 
 	@Autowired
 	private QAUserRepository qaUserRepository;
-
+	
 	// public actions
 	public String login(String email, String password) {
 		String ret = "";
@@ -105,5 +105,4 @@ public class QAUserModel implements Serializable {
 		return (QAUser) FacesContext.getCurrentInstance().getExternalContext().
 				getSessionMap().get("qauserLogged");
 	}
-
 }
