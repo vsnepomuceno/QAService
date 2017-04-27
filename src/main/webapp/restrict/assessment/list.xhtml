@@ -25,7 +25,9 @@
 				<p:outputLabel value="#{selectedPaper.year}" />
 				
 				<p:outputLabel value="Registered By:" />
-				<p:outputLabel value="#{selectedPaper.qauser.username}" />
+				<p:commandLink onclick="PF('viewUser').show();">
+        			<h:outputText value="#{selectedPaper.qauser.username}"  />
+    			</p:commandLink>
 			</p:panelGrid>
 			<br />
 			<p:commandButton value="New Assessment" icon="fa fa-plus"
@@ -54,6 +56,28 @@
 				</p:column>
 			</p:dataTable>
 	</h:form>
+	<p:dialog header="View User" widgetVar="viewUser" modal="true"
+		height="280" resizable="false">
+		<h:form id="formDialogViewUser">
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Registered By: " />
+				<p:outputLabel value="#{selectedPaper.qauser.username}" />
+				
+				<p:outputLabel value="E-mail: " />
+				<p:outputLabel value="#{selectedPaper.qauser.email}" />
+
+				<p:outputLabel value="Institution Name: " />
+				<p:outputLabel value="#{selectedPaper.qauser.institution.name}" />
+				
+
+				<p:outputLabel value="Institution Country: " />
+				<p:outputLabel value="#{selectedPaper.qauser.institution.country}" />
+			</p:panelGrid>
+			<br />
+			<p:commandButton value="Confirm" update="@all"
+				onsucess="PF('newUser').hide();" />
+		</h:form>
+	</p:dialog>
 </h:body>
 </html>
 
