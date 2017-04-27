@@ -75,6 +75,19 @@ public class QAUserModel implements Serializable {
 		return ret;
 	}
 	
+	public String updateUser() {
+		String ret = "";
+		try {
+			QAUser qaUser = this.getQAUserLogged();
+			this.qaUserRepository.saveAndFlush(qaUser);
+		} catch (Exception ex) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+							"Register Failed!", ex.getMessage()));
+		}
+		return ret;
+	}
+	
 	public String logout() {
 
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
