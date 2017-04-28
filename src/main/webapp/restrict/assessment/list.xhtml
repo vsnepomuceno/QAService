@@ -74,8 +74,8 @@
 				<p:outputLabel value="#{selectedPaper.qauser.institution.country}" />
 			</p:panelGrid>
 			<br />
-			<p:commandButton value="Confirm" update="@all"
-				onsucess="PF('newUser').hide();" />
+			<p:commandButton value="Close" 
+				onclick="PF('viewUser').hide();" />
 		</h:form>
 	</p:dialog>
 </h:body>

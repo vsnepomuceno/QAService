@@ -35,8 +35,8 @@
 					<h:outputText value="#{paper.year}" />
 				</h:panelGrid>
 				
-				<p:commandButton value="Edit Paper" update="form" icon="fa fa-edit"
-				onclick="PF('editPaper').show();" >
+				<p:commandButton value="Edit Paper" update=":formDialogEditPaper" icon="fa fa-edit"
+						oncomplete="PF('editPaper').show();" >
 					<f:setPropertyActionListener value="#{paper}" 
 							target="#{paperModel.paper}" /> 
 				</p:commandButton>
@@ -48,7 +48,7 @@
 		</p:dataScroller>
 	</h:form>
 	<p:dialog header="Edit Paper" widgetVar="editPaper" modal="true"
-		height="280" resizable="false">
+		height="280" resizable="false" dynamic="true">
 		<h:form id="formDialogEditPaper">
 			<p:panelGrid columns="2">
 				<p:outputLabel value="Title*: " />
@@ -64,9 +64,9 @@
 					maxlength="4" requiredMessage="Year can not be empty!" />
 			</p:panelGrid>
 			<br />
-			<p:commandButton value="Confirm" update="@all"
+			<p:commandButton value="Confirm" 
 				action="${paperModel.updatePaper()}"
-				onsucess="PF('newUser').hide();" />
+				oncomplete="PF('editPaper').hide();" />
 		</h:form>
 	</p:dialog>
 </h:body>

@@ -27,11 +27,11 @@ function stop() {
 	<br/>
 	<h:form id="formDetail" enctype="multipart/form-data">
 		<p:panelGrid columns="2">
-			<p:outputLabel value="Method Name*: " />
+			<p:outputLabel value="Method Name: " />
 			<p:outputLabel value="#{qualityAssessment.methodName}" />
 			
 			
-			<p:outputLabel value="Method Reference*: " />
+			<p:outputLabel value="Method Reference: " />
 			<p:outputLabel value="#{qualityAssessment.methodReference}" />
 
 			<p:outputLabel value="Method Score: " />
@@ -45,7 +45,9 @@ function stop() {
 			</p:commandButton>
 			
 			<p:outputLabel value="Registered By: " />
-			<p:outputLabel value="#{qualityAssessment.qaUser.username}" />
+			<p:commandLink onclick="PF('viewUser').show();">
+        		<h:outputText value="#{qualityAssessment.qaUser.username}"  />
+    		</p:commandLink>
 			
 			<p:outputLabel value="Observations:" />
 			<p:inputTextarea value="#{qualityAssessment.observations}" 
@@ -56,6 +58,28 @@ function stop() {
 		draggable="false" closable="false" resizable="false">
 	    
 	    <p:outputLabel value="Wait...." />
+	</p:dialog>
+	<p:dialog header="View User" widgetVar="viewUser" modal="true"
+		height="280" resizable="false">
+		<h:form id="formDialogViewUser">
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Registered By: " />
+				<p:outputLabel value="#{qualityAssessment.qaUser.username}" />
+				
+				<p:outputLabel value="E-mail: " />
+				<p:outputLabel value="#{qualityAssessment.qaUser.email}" />
+
+				<p:outputLabel value="Institution Name: " />
+				<p:outputLabel value="#{qualityAssessment.qaUser.institution.name}" />
+				
+
+				<p:outputLabel value="Institution Country: " />
+				<p:outputLabel value="#{qualityAssessment.qaUser.institution.country}" />
+			</p:panelGrid>
+			<br />
+			<p:commandButton value="Close" 
+				onclick="PF('viewUser').hide();" />
+		</h:form>
 	</p:dialog>
 </h:body>
 </html>
