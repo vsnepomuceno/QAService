@@ -16,30 +16,38 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 @Table(name = "paper")
 public class Paper implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false)
 	private Integer codigo;
 
+	@Expose
 	@ManyToOne
 	@JoinColumn(name = "qauser_id", updatable = false)
 	private QAUser qauser;
 
+	@Expose
 	@Column(name = "name", nullable = false, length = 300)
 	private String name;
 	
+	@Expose
 	@Column(name = "authors", nullable = false, length = 300)
 	private String authors;
 
+	@Expose
 	@Column(name = "year", nullable = false)
 	private Integer year;
 
+	@Expose
 	@OneToMany(mappedBy = "paper", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
 	@OrderBy
 	private List<QualityAssessment> qualityAssements;

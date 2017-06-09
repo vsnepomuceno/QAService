@@ -26,7 +26,8 @@ import br.ufpe.cin.eseg.qaservice.util.LoggerQAS;
 @Configuration
 @Import(PropertyPlaceholderConfig.class)
 @ComponentScan({ "br.ufpe.cin.eseg.qaservice", 
-				 "br.ufpe.cin.eseg.qaservice.model"})
+				 "br.ufpe.cin.eseg.qaservice.model",
+				 "br.ufpe.cin.eseg.qaservice.model.service"})
 @EnableJpaRepositories("br.ufpe.cin.eseg.qaservice.model.repositories")
 @EnableTransactionManagement
 public class PersistenceContext {

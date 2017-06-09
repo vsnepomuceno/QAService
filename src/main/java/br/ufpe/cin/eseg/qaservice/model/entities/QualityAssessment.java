@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 @Table(name = "quality_assessment")
 public class QualityAssessment implements Serializable{
@@ -23,7 +25,7 @@ public class QualityAssessment implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false)
@@ -33,15 +35,19 @@ public class QualityAssessment implements Serializable{
 	@JoinColumn(name = "paper_id", updatable = false)
 	private Paper paper;
 
+	@Expose
 	@Column(name = "methodName", nullable = false, length = 100)
 	private String methodName;
 
+	@Expose
 	@Column(name = "methodReference", nullable = false, length = 100)
 	private String methodReference;
 
+	@Expose
 	@Column(name = "methodScore")
 	private Integer methodScore;
 
+	@Expose
 	@Column(name = "observations", length = 2000)
 	private String observations;
 
@@ -49,9 +55,11 @@ public class QualityAssessment implements Serializable{
 	@Basic(fetch = FetchType.LAZY)
 	private byte[] pdfFile;
 
+	@Expose
 	@Column(name = "positiveqa")
 	private Integer positiveQA;
 
+	@Expose
 	@Column(name = "negativeqa")
 	private Integer negativeQA;
 	

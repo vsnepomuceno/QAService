@@ -16,6 +16,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 @Table(name = "qauser")
 public class QAUser implements Serializable{
@@ -30,16 +32,20 @@ public class QAUser implements Serializable{
 	@Column(name = "id", updatable = false)
 	private Integer codigo;
 
+	@Expose
 	@Column(name = "username", nullable = false, length = 100)
 	private String username;
+	@Expose
 	@Column(name = "email", nullable = false, length = 50)
 	private String email;
+	
 	@Column(name = "password", nullable = false, length = 64)
 	private String password;
 
 	@Column(name = "superUser", nullable = false)
 	private boolean superUser;
 
+	@Expose
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "institution_id")
 	private Institution institution;
