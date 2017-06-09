@@ -187,7 +187,7 @@ public class PaperModel implements Serializable {
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-							"Title can not be null!", ""));
+							"Title can not be empty!", ""));
 		}
 		
 		return ret;
@@ -203,7 +203,23 @@ public class PaperModel implements Serializable {
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-							"Authors can not be null!", ""));
+							"Authors can not be empty!", ""));
+		}
+		
+		return ret;
+	}
+	
+	public String searchYear(Integer year) {
+		String ret= "";
+		
+		if (year != null) {
+			List<Paper> papers = this.paperRepository.findByYear(year);
+			this.setPapers(papers);
+			ret = "/restrict/assessment/searchResult.xhtml?faces-redirect=true";
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+							"Year can not be empty!", ""));
 		}
 		
 		return ret;

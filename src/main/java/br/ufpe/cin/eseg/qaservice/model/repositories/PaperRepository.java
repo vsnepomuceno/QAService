@@ -17,6 +17,8 @@ public interface PaperRepository extends JpaRepository<Paper, Integer> {
 	 @Query("select p from Paper p where p.authors like %?1%")
 	 public List<Paper> findByPartialAuthors(String authors);
 	 
+	 public List<Paper> findByYear(Integer year);
+	 
 	 public Paper findByName(String name);
 	 
 	 public Paper findByCodigo(Integer codigo);

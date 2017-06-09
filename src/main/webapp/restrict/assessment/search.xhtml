@@ -19,12 +19,20 @@
 					maxlength="300" />
 				<p:commandButton value="Search" update="formSearch"
 					icon="fa fa-search" action="${paperModel.searchTitle(query.value)}" />
-				
+
 				<p:outputLabel value="Query Authors: " />
 				<p:inputText id="txtAuthors" binding="#{authors}" size="75"
-					maxlength="300"  />
+					maxlength="300" />
 				<p:commandButton value="Search" update="formSearch"
-					icon="fa fa-search" action="${paperModel.searchAuthors(authors.value)}" />
+					icon="fa fa-search"
+					action="${paperModel.searchAuthors(authors.value)}" />
+
+				<p:outputLabel value="Query Year: " />
+				<p:inputText id="txtYear" binding="#{year}" size="10"
+					maxlength="4" />
+				<p:commandButton value="Search" update="formSearch"
+					icon="fa fa-search"
+					action="${paperModel.searchYear(year.value)}" />
 			</p:panelGrid>
 		</p:fieldset>
 	</h:form>
