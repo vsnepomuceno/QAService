@@ -1,8 +1,10 @@
 package br.ufpe.cin.eseg.qaservice.model.entities;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,7 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import com.google.gson.annotations.Expose;
@@ -57,15 +61,19 @@ public class QualityAssessment implements Serializable{
 
 	@Expose
 	@Column(name = "positiveqa")
-	private Integer positiveQA;
+	private Integer positiveQA = 0;
 
 	@Expose
 	@Column(name = "negativeqa")
-	private Integer negativeQA;
+	private Integer negativeQA = 0;
 	
 	@OneToOne
 	@JoinColumn(name = "qauser_id")
 	private QAUser qaUser;
+	
+	@OneToMany(mappedBy = "qualityAssessment", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
+	@OrderBy
+	private List<Comment> comments;
 
 	public Integer getCodigo() {
 		return codigo;
@@ -145,5 +153,13 @@ public class QualityAssessment implements Serializable{
 
 	public void setQaUser(QAUser qaUser) {
 		this.qaUser = qaUser;
+	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 }

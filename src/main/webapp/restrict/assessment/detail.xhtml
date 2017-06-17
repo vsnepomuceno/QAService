@@ -9,51 +9,109 @@
 
 
 <h:body>
-<script type="text/javascript">
-function start() {
-    PF('statusDialog').show();
-}
- 
-function stop() {
-    PF('statusDialog').hide();
-}
-</script>
+	<script type="text/javascript">
+		function start() {
+			PF('statusDialog').show();
+		}
+
+		function stop() {
+			PF('statusDialog').hide();
+		}
+	</script>
 	<ui:include src="/restrict/head.xhtml" />
-	<br/>
-	<br/>
+	<br />
+	<br />
 	<h:form id="formDetail" enctype="multipart/form-data">
+		<p:commandButton value="#{qualityAssessment.positiveQA}"
+			icon="fa fa-thumbs-up" update="formDetail"
+			action="${paperModel.likeQualityAssessment(qualityAssessment, true)}" />
+&#160;&#160;&#160;&#160;&#160;
+		<p:commandButton value="#{qualityAssessment.negativeQA}"
+			icon="fa fa-thumbs-o-down" update="formDetail"
+			action="${paperModel.likeQualityAssessment(qualityAssessment, false)}" />
+		<br/>
+		<br/>
 		<p:panelGrid columns="2">
 			<p:outputLabel value="Method Name: " />
 			<p:outputLabel value="#{qualityAssessment.methodName}" />
-			
-			
+
 			<p:outputLabel value="Method Reference: " />
 			<p:outputLabel value="#{qualityAssessment.methodReference}" />
 
 			<p:outputLabel value="Method Score: " />
 			<p:outputLabel value="#{qualityAssessment.methodScore}" />
-			
+
 			<p:outputLabel value="Attachment: " />
 			<p:commandButton value="Download" ajax="false"
 				onclick="PrimeFaces.monitorDownload(start, stop);"
 				icon="ui-icon-arrowthick-1-s">
 				<p:fileDownload value="#{paperModel.pdfFile}" />
 			</p:commandButton>
-			
+
 			<p:outputLabel value="Registered By: " />
 			<p:commandLink onclick="PF('viewUser').show();">
-        		<h:outputText value="#{qualityAssessment.qaUser.username}"  />
-    		</p:commandLink>
-			
+				<h:outputText value="#{qualityAssessment.qaUser.username}" />
+			</p:commandLink>
+
 			<p:outputLabel value="Observations:" />
-			<p:inputTextarea value="#{qualityAssessment.observations}" 
-					cols="100" rows="8" readonly="true"/>
+			<p:inputTextarea value="#{qualityAssessment.observations}" cols="110"
+				rows="8" readonly="true" />
 		</p:panelGrid>
+		<br />
 	</h:form>
-	<p:dialog modal="true" widgetVar="statusDialog" header="Status" 
+	<br />
+	<br />
+	<h:form id="formComments">
+		<p:fieldset legend="Comments">
+			<p:messages />
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Comment*:" style="width: 100px;" />
+				<p:inputTextarea id="txtComment" binding="#{commentIn}" cols="114"
+					rows="3" maxlength="1000" />
+			</p:panelGrid>
+			<br />
+			<p:commandButton value="New Comment" icon="fa fa-plus"
+				update="formComments"
+				action="${paperModel.registerComment(commentIn.value, qualityAssessment)}" />
+			<br />
+			<br />
+			<p:dataScroller value="#{qualityAssessment.comments}" var="comment"
+				chunkSize="5">
+				<f:facet name="header"> 
+            	Load More Comments
+        		</f:facet>
+
+				<f:facet name="loader">
+					<p:commandButton type="button" value="More"
+						icon="ui-icon-circle-triangle-s" />
+				</f:facet>
+
+				<p:fieldset>
+
+					<p:panelGrid columns="2">
+						<p:outputLabel value="User: " style="width: 20px;" />
+						<p:outputLabel value="#{comment.sender.username}" />
+						<p:outputLabel value="Comment: " />
+						<p:outputLabel value="#{comment.message}" />
+					</p:panelGrid>
+					<br />
+					<p:commandButton value="#{comment.positive}" icon="fa fa-thumbs-up"
+						update="formComments" 
+						action="${paperModel.likeComment(comment, true)}" />
+						&#160;&#160;&#160;&#160;&#160;
+					<p:commandButton value="#{comment.negative}"
+						icon="fa fa-thumbs-o-down" update="formComments"
+						action="${paperModel.likeComment(comment, false)}" />
+				</p:fieldset>
+				<br />
+			</p:dataScroller>
+		</p:fieldset>
+	</h:form>
+
+	<p:dialog modal="true" widgetVar="statusDialog" header="Status"
 		draggable="false" closable="false" resizable="false">
-	    
-	    <p:outputLabel value="Wait...." />
+
+		<p:outputLabel value="Wait...." />
 	</p:dialog>
 	<p:dialog header="View User" widgetVar="viewUser" modal="true"
 		height="280" resizable="false">
@@ -61,20 +119,20 @@ function stop() {
 			<p:panelGrid columns="2">
 				<p:outputLabel value="Registered By: " />
 				<p:outputLabel value="#{qualityAssessment.qaUser.username}" />
-				
+
 				<p:outputLabel value="E-mail: " />
 				<p:outputLabel value="#{qualityAssessment.qaUser.email}" />
 
 				<p:outputLabel value="Institution Name: " />
 				<p:outputLabel value="#{qualityAssessment.qaUser.institution.name}" />
-				
+
 
 				<p:outputLabel value="Institution Country: " />
-				<p:outputLabel value="#{qualityAssessment.qaUser.institution.country}" />
+				<p:outputLabel
+					value="#{qualityAssessment.qaUser.institution.country}" />
 			</p:panelGrid>
 			<br />
-			<p:commandButton value="Close" 
-				onclick="PF('viewUser').hide();" />
+			<p:commandButton value="Close" onclick="PF('viewUser').hide();" />
 		</h:form>
 	</p:dialog>
 </h:body>

@@ -17,9 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import br.ufpe.cin.eseg.qaservice.model.entities.Comment;
 import br.ufpe.cin.eseg.qaservice.model.entities.Paper;
 import br.ufpe.cin.eseg.qaservice.model.entities.QAUser;
 import br.ufpe.cin.eseg.qaservice.model.entities.QualityAssessment;
+import br.ufpe.cin.eseg.qaservice.model.repositories.CommentRepository;
 import br.ufpe.cin.eseg.qaservice.model.repositories.PaperRepository;
 import br.ufpe.cin.eseg.qaservice.model.repositories.QAUserRepository;
 import br.ufpe.cin.eseg.qaservice.util.LoggerQAS;
@@ -36,6 +38,9 @@ public class PaperModel implements Serializable {
 	
 	@Autowired
 	private QAUserRepository qaUserRepository;
+	
+	@Autowired
+	private CommentRepository commentRepository;
 	
 	private UploadedFile file;	
 
@@ -177,6 +182,71 @@ public class PaperModel implements Serializable {
 		return ret;
 	}
 	
+	public String registerComment(String message, QualityAssessment qa) {
+		String ret = "";
+		
+		if (message != null && !message.isEmpty()) {
+			try {
+				
+				Comment com = new Comment();
+				com.setMessage(message);
+				com.setQualityAssessment(qa);
+				com.setSender(this.getQAUserLogged());
+				
+				List<Comment> coms = qa.getComments();
+				coms.add(com);
+				qa.setComments(coms);
+				
+				Paper paper = qa.getPaper();
+				paper = paperRepository.saveAndFlush(paper);
+				this.setSelectedQA(qa);
+				ret = "/restrict/assessment/detail.xhtml?faces-redirect=true";
+			}catch (Exception ex) {
+				LoggerQAS.getLoggerInstance().logError(ex.getMessage());
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+								ex.getMessage(), ""));
+			}
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+							"Message can not be empty!", ""));
+		}
+		
+		return ret;
+	}
+	
+	public String likeQualityAssessment(QualityAssessment quality, boolean like) {
+		String ret = "";
+		
+		if (like) {
+			quality.setPositiveQA(quality.getPositiveQA()+1);
+		} else {
+			quality.setNegativeQA(quality.getNegativeQA()+1);
+		}
+		
+		Paper paper = quality.getPaper();
+		paper = paperRepository.saveAndFlush(paper);
+		this.setSelectedQA(quality);
+		
+		return ret;
+	}
+	
+	public String likeComment(Comment comment, boolean like) {
+		String ret = "";
+		
+		if (like) {
+			comment.setPositive(comment.getPositive()+1);
+		} else {
+			comment.setNegative(comment.getNegative()+1);
+		}
+		
+		this.commentRepository.saveAndFlush(comment);
+		this.setSelectedQA(comment.getQualityAssessment());
+		
+		return ret;
+	}
+
 	public String searchTitle(String title) {
 		String ret= "";
 		
