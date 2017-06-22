@@ -54,7 +54,7 @@
 			</p:commandLink>
 
 			<p:outputLabel value="Observations:" />
-			<p:inputTextarea value="#{qualityAssessment.observations}" cols="110"
+			<p:inputTextarea value="#{qualityAssessment.observations}" cols="100"
 				rows="8" readonly="true" />
 		</p:panelGrid>
 		<br />
@@ -65,8 +65,8 @@
 		<p:fieldset legend="Comments">
 			<p:messages />
 			<p:panelGrid columns="2">
-				<p:outputLabel value="Comment*:" style="width: 100px;" />
-				<p:inputTextarea id="txtComment" binding="#{commentIn}" cols="114"
+				<p:outputLabel value="Comment*:" />
+				<p:inputTextarea id="txtComment" binding="#{commentIn}" cols="100"
 					rows="3" maxlength="1000" />
 			</p:panelGrid>
 			<br />
@@ -89,7 +89,7 @@
 				<p:fieldset>
 
 					<p:panelGrid columns="2">
-						<p:outputLabel value="User: " style="width: 20px;" />
+						<p:outputLabel value="User: " />
 						<p:outputLabel value="#{comment.sender.username}" />
 						<p:outputLabel value="Comment: " />
 						<p:outputLabel value="#{comment.message}" />

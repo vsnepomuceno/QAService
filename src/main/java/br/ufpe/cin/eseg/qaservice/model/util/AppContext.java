@@ -13,12 +13,9 @@ import br.ufpe.cin.eseg.qaservice.model.repositories.util.PropertyPlaceholderCon
 @ComponentScan({ "br.ufpe.cin.eseg.qaservice" })
 public class AppContext {
 	
-
 	private static AppContext getAppContextBean() {
 		ApplicationContext ac = ContextLoader.getCurrentWebApplicationContext();
 		AppContext appc = ac.getBean(AppContext.class);
 		return appc;
 	}
-
-	
 }

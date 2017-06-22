@@ -210,7 +210,7 @@ public class PaperModel implements Serializable {
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-							"Message can not be empty!", ""));
+							"Comment can not be empty!", ""));
 		}
 		
 		return ret;

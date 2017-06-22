@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import br.ufpe.cin.eseg.qaservice.model.entities.Paper;
+import br.ufpe.cin.eseg.qaservice.util.LoggerQAS;
 
 @Path("service")
 public class DatabaseService implements Serializable {
@@ -33,14 +34,7 @@ public class DatabaseService implements Serializable {
 		this.em = ((EntityManagerFactory) ac.getBean("entityManagerFactory")).
 							createEntityManager();
 	}
-
-	@GET
-	@Produces({ MediaType.TEXT_PLAIN })
-	@Path("/hello")
-	public String getPlain() {
-		return "Hello World!!!";
-	}
-
+	
 	@SuppressWarnings("unchecked")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
@@ -56,8 +50,8 @@ public class DatabaseService implements Serializable {
 			    .create();
 		json = gson.toJson(papers);
 		} catch(Exception ex) {
-			System.out.println(ex.getMessage());
 			ex.printStackTrace();
+			LoggerQAS.getLoggerInstance().logError(ex.getMessage());
 		}
 		return json;
 	}
@@ -123,5 +117,46 @@ public class DatabaseService implements Serializable {
 			ex.printStackTrace();
 		}
 		return json;
+	}
+	
+	@GET
+	@Produces({ MediaType.TEXT_HTML })
+	@Path("/help")
+	public String getPlain() {		
+		String html = "<?xml version='1.0' encoding='UTF-8' ?>" + 
+					"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" +
+					"<html> <head> <style> table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%; }" +
+					"td, th { border: 1px solid #dddddd; padding: 8px;} " +
+					"tr:nth-child(even) { background-color: #dddddd;}" + 
+					"</style><title>QAService ESEG</title> </head>" +					
+					"<body> " +
+					"<table><tr><th><h3>Service Name</h3></th> <th><h3>URL</h3></th> <th><h3>Description</h3></th> </tr>" +
+
+					"<tr> "+
+				    "<td>Get All Papers</td>"+
+				    "<td>vsnepomuceno.com.br/qaservice/resources/service/papers</td>"+
+				    "<td>This Service retrieves a JSON file with information about all papers stored on database.</td>"+
+				    "</tr>"+
+				    
+					"<tr> "+
+					"<td>Get Papers By Title</td>"+
+					"<td>vsnepomuceno.com.br/qaservice/resources/service/papers/title?title=value</td>"+
+					"<td>This Service retrieves a JSON file with information about papers with the <b>title</b> parameter value.</td>"+
+					"</tr>"+
+					
+					"<tr> "+
+					"<td>Get Papers By Authors</td>"+
+					"<td>vsnepomuceno.com.br/qaservice/resources/service/papers/authors?authors=value</td>"+
+					"<td>This Service retrieves a JSON file with information about papers with the <b>authors</b> parameter value.</td>"+
+					"</tr>"+
+										
+					"<tr> "+
+					"<td>Get Papers By Year</td>"+
+					"<td>vsnepomuceno.com.br/qaservice/resources/service/papers/year?year=value</td>"+
+					"<td>This Service retrieves a JSON file with information about papers with the <b>year</b> parameter value.</td>"+
+					"</tr>"+
+				    
+					"</body> </html>";
+		return html;
 	}
 }
